@@ -25,7 +25,7 @@ Use the verbose option:
 ```bash
 pytest -v tests/test_palindrome.py
 ```
-[Pytest output](assets/pytest-output.png)
+[Pytest output](assets/pytest-ouput.png)
 ```
 ```
 
