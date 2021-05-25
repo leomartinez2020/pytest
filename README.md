@@ -111,3 +111,15 @@ pytest -m failing
 Output for failing test:
 
 ![Pytest output](assets/test-mark.png)
+
+## Stop the test session
+
+The default behavior of pytest is to run all tests even if one of them fails. Use the option -x to exit as soon as a test fails:
+```
+pytest -x tests/
+```
+
+To set a maximum number of test fails, we can use --maxfail
+```
+pytest --maxfail=2 tests/
+```
