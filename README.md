@@ -112,7 +112,7 @@ Output for failing test:
 
 ![Pytest output](assets/test-mark.png)
 
-## Stop the test session
+## Stopping the test session
 
 The default behavior of pytest is to run all tests even if one of them fails. Use the option -x to exit as soon as a test fails:
 ```
@@ -123,3 +123,29 @@ To set a maximum number of test fails, we can use --maxfail
 ```
 pytest --maxfail=2 tests/
 ```
+## Using print statements
+
+You can use -s or the equivalent --capture=no to turn off the capture of output.
+
+The -l flag is used to print the local variables.
+
+The flag -fd points file descriptors 1 and 2 to a temp file:
+```
+pytest --capture=fd
+```
+
+The flags --lf or --last-failed are used to only re-run the failures.
+
+The flags --ff or --failed-first allow re-running the failed tests first and then the rest.
+
+Use -v or --verbose to report more information. Use -q or --quiet to have less information.
+
+## Modyfying tracebacks
+
+--tb=no removes all traceback
+--tb=line prints only one line of traceback.
+--tb=short prints the assertion and the E line without context.
+
+## Durations
+
+--durations=2 reports the two slowest number of tests. --durations=0 reports everything from the slowest to the fastest.
