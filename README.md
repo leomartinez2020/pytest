@@ -149,3 +149,63 @@ Use -v or --verbose to report more information. Use -q or --quiet to have less i
 ## Durations
 
 --durations=2 reports the two slowest number of tests. --durations=0 reports everything from the slowest to the fastest.
+
+## Making a package
+
+project
+|-- setup.py
+|-- src
+|     |__ working_code
+|       |-- __init__.py
+|       |
+|       |-- script1.py
+|
+|-- tests
+|     |-- pytest.ini
+|     |
+|     |-- test_script1.py
+
+In order to call the functions in the code under the src folder, we need to add an empty __init__.py file to indicate this folder is a package. Then in the root project we create a setup.py file with the content:
+
+```
+from setuptools import setup, find_packages
+
+setup(name='src', packages=find_packages())
+```
+
+Then we install the package with the cli command:
+```
+pip install -e .
+```
+Then we can import any function from the package in any test in the test folder:
+
+```
+from src.script1 import my_func
+
+def test_my_func():
+    pass
+```
+
+## Expecting exceptions
+
+We can tell a test to expect an exception when we on purpose use the incorrect arguments in a function, for example.
+
+```
+import pytest
+
+def test_zero_division():
+    with pytest.raises(ZeroDivisionError):
+        y = 10 / 0
+```
+The test passes if the exception is raised. This is useful to test edge cases.
+
+We can even assert error message expected:
+```
+import pytest
+
+def test_zero_division():
+    with pytest.raises(ZeroDivisionError) as excinfo:
+        y = 10 / 0
+    assert excinfo.value.args[0] == 'division by zero'
+```
+
