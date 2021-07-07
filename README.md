@@ -69,7 +69,7 @@ pytest tests/test_palindrome.py::test_palindrome_pass
 
 Use --collect-only to check what tests are going to be executed but not to run them
 ```
-pytest --collect-options tests/test_palindrome.py
+pytest --collect-only tests/test_palindrome.py
 ```
 
 Use -k to run tests that have a common preffix or suffix
@@ -153,16 +153,27 @@ Use -v or --verbose to report more information. Use -q or --quiet to have less i
 ## Making a package
 
 project
+
 |-- setup.py
+
 |-- src
+
 |     |__ working_code
+
 |       |-- __init__.py
+
 |       |
+
 |       |-- script1.py
+
 |
+
 |-- tests
+
 |     |-- pytest.ini
+
 |     |
+
 |     |-- test_script1.py
 
 In order to call the functions in the code under the src folder, we need to add an empty __init__.py file to indicate this folder is a package. Then in the root project we create a setup.py file with the content:
@@ -184,6 +195,17 @@ from src.script1 import my_func
 
 def test_my_func():
     pass
+```
+## Assert
+
+There is no need to use the assertions used in unittest: *assertEqual, assertTrue, assertLessEqual*, etc. Use only *assert*:
+
+```
+assert a 
+
+assert a > b
+
+assert a == b
 ```
 
 ## Expecting exceptions
@@ -209,3 +231,40 @@ def test_zero_division():
     assert excinfo.value.args[0] == 'division by zero'
 ```
 
+## Marking test functions
+
+Used to select a subset of tests to be executed together
+
+```
+@pytest.mark.module_db
+def test_connect_db:
+    assert db_connection()
+
+@pytest.mark.module_db
+def test_elems_db:
+    assert 'names' in mongodb.list_collection_names()
+```
+
+```
+@pytest.mark.module_api
+def test_connect_api:
+    assert 'items' in api.list_items()
+```
+
+```
+pytest -v -m 'module_db' tests
+
+pytest -v -m 'module_api' tests
+```
+
+Test functions with different marks together (use *and*):
+
+```
+pytest -v -m 'module_db and module_api' tests
+```
+
+Run all tests except the ones marked with module_db
+
+```
+pytest -v -m 'not module_db' tests
+```
